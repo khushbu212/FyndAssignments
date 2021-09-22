@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>a15</title>
+</head>
+
+<body id='body'>
+    <p>OUTPUT:</p>
+    <p id="p"></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+    <script>
+        async  function bretInfo(username) {
+            let op;
+            try{
+                op = await axios.get(`https://jsonplaceholder.typicode.com/users?username=` + username);
+
+                op = await axios.get(`https://jsonplaceholder.typicode.com/users/${op.data[0].id}/posts`);
+    
+                op = await axios.get(`https://jsonplaceholder.typicode.com/comments?postId=${op.data[0].id}`)
+             
+                op = op.data.map((comment => comment.email));
+            }
+            catch(error){
+                console.log(error.message)
+            }
+            return op;
+        }
+
+        bretInfo('Bret')
+        .then( emails =>htmlop(emails) )
+        .catch( error => error.message );
+       
+function htmlop(emails)
+{
+    const pdata=document.querySelector("#p");
+    pdata.innerHTML=''
+pdata.innerHTML+=` ${emails}`;
+}
+           
+ 
+
+    </script>
+   
+</body>
+
+</html>
